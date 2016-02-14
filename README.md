@@ -1,4 +1,3 @@
 # CakePHP NewRelic
 
-CakePHP Dispatcher Filter for New Relic Agent.
-
+CakePHP New Relic plugin.
