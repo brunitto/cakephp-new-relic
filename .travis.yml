@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 5.9
+
+sudo: false
+
+install:
+  - composer install
+
+before_script:
+  - phpenv rehash
+
+script:
+  - phpunit
+
+notifications:
+  - email: false
