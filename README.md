@@ -24,7 +24,7 @@ For more information, visit:
 This plugin has the following requirements:
 
 * CakePHP 3.2 or greater
-* PHP 5.9 or greater
+* PHP 5.5.9 or greater
 * New Relic PHP extension
 
 ## Installation
