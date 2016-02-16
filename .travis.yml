@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 7.0
+
+sudo: false
+
+install:
+  - composer install
+
+before_script:
+  - phpenv rehash
+
+script:
+  - ./vendor/bin/phpunit
+
+notifications:
+  - email: false
