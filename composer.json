@@ -1,6 +1,7 @@
 {
     "name": "brunitto/cakephp-new-relic",
     "description": "CakePHP New Relic plugin.",
+    "license": "MIT",
     "require": {
         "cakephp/cakephp": ">=3.2 <4.0"
     },
