@@ -67,20 +67,44 @@ class NameTransactionsFilterTest extends TestCase
      */
     public function testNameTransaction()
     {
-        // Assert the transaction name with a plugin
-        $this->Request->params['plugin'] = 'NewRelic';
-        $this->Request->params['controller'] = 'Transactions';
-        $this->Request->params['action'] = 'name';
+        // Assert the transaction name using controller/action
+        $this->Request->params['plugin'] = null;
+        $this->Request->params['prefix'] = null;
+        $this->Request->params['controller'] = 'TestController';
+        $this->Request->params['action'] = 'test';
         $this->assertEquals(
             $this->NameTransactionFilter->nameTransaction($this->Request),
-            'NewRelic/Transactions/name'
+            'test-controller/test'
         );
 
-        // Assert the transaction name without a plugin
-        $this->Request->params['plugin'] = null;
+        // Assert the transaction name using plugin/controller/action
+        $this->Request->params['plugin'] = 'TestPlugin';
+        $this->Request->params['prefix'] = null;
+        $this->Request->params['controller'] = 'TestController';
+        $this->Request->params['action'] = 'test';
         $this->assertEquals(
             $this->NameTransactionFilter->nameTransaction($this->Request),
-            'Transactions/name'
+            'test-plugin/test-controller/test'
+        );
+
+        // Assert the transaction name using prefix/controller/action
+        $this->Request->params['plugin'] = null;
+        $this->Request->params['prefix'] = 'TestPrefix';
+        $this->Request->params['controller'] = 'TestController';
+        $this->Request->params['action'] = 'test';
+        $this->assertEquals(
+            $this->NameTransactionFilter->nameTransaction($this->Request),
+            'test-prefix/test-controller/test'
+        );
+
+        // Assert the transaction name using plugin/prefix/controller/action
+        $this->Request->params['plugin'] = 'TestPlugin';
+        $this->Request->params['prefix'] = 'TestPrefix';
+        $this->Request->params['controller'] = 'TestController';
+        $this->Request->params['action'] = 'test';
+        $this->assertEquals(
+            $this->NameTransactionFilter->nameTransaction($this->Request),
+            'test-plugin/test-prefix/test-controller/test'
         );
     }
 }
