@@ -10,6 +10,7 @@ namespace NewRelic\Routing\Filter;
 use Cake\Event\Event;
 use Cake\Routing\DispatcherFilter;
 use Cake\Network\Http\Request;
+use Cake\Utility\Inflector;
 
 /**
  * New Relic name transaction dispatcher filter.
@@ -46,13 +47,18 @@ class NameTransactionFilter extends DispatcherFilter
     public function nameTransaction(Request $request)
     {
         $plugin = $request->params['plugin'];
+        $prefix = $request->params['prefix'];
         $controller = $request->params['controller'];
         $action = $request->params['action'];
 
-        if ($plugin === null) {
-            $transaction =  $controller . '/' . $action;
-        } else {
-            $transaction =  $plugin . '/' . $controller . '/' . $action;
+        $transaction = Inflector::dasherize($controller) . '/' . $action;
+
+        if ($prefix !== null) {
+            $transaction = Inflector::dasherize($prefix) . '/' . $transaction;
+        }
+
+        if ($plugin !== null) {
+            $transaction = Inflector::dasherize($plugin) . '/' . $transaction;
         }
 
         return $transaction;
