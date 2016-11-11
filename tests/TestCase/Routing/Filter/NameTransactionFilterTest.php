@@ -2,7 +2,8 @@
 /**
  * CakePHP New Relic plugin.
  *
- * @author Bruno Moyle <brunitto@gmail.com>
+ * @author https://github.com/brunitto
+ * @author https://github.com/voycey
  * @link https://github.com/brunitto/cakephp-new-relic
  */
 namespace NewRelic\Test\Routing\Filter;
