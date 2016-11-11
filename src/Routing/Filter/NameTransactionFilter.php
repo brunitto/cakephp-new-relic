@@ -2,14 +2,15 @@
 /**
  * CakePHP New Relic plugin.
  *
- * @author Bruno Moyle <brunitto@gmail.com>
+ * @author https://github.com/brunitto
+ * @author https://github.com/voycey
  * @link https://github.com/brunitto/cakephp-new-relic
  */
 namespace NewRelic\Routing\Filter;
 
 use Cake\Event\Event;
 use Cake\Routing\DispatcherFilter;
-use Cake\Network\Http\Request;
+use Cake\Network\Request;
 use Cake\Utility\Inflector;
 
 /**
@@ -41,7 +42,7 @@ class NameTransactionFilter extends DispatcherFilter
      *
      * Name the transaction using request data.
      *
-     * @param Cake\Network\Http\Network $request The request.
+     * @param Cake\Network\Network $request The request.
      * @return string
      */
     public function nameTransaction(Request $request)
