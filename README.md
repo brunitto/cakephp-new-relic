@@ -65,6 +65,12 @@ And the footer goes right before the `</body>` element:
     <?= $this->NewRelic->getBrowserTimingFooter() ?>
     </body>
 
+## Middleware support
+
+This plugin is ready for Middleware, as defined in:
+
+[Middleware](https://book.cakephp.org/3.0/en/controllers/middleware.html)
+
 ## Reporting issues
 
 If you have some problem with this plugin, please open an issue on:
