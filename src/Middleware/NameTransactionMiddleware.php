@@ -2,7 +2,7 @@
 /**
  * CakePHP New Relic plugin.
  *
- * @author https://github.com/rodrigorm
+ * @author https://github.com/brunitto
  * @author https://github.com/voycey
  * @author https://github.com/rodrigorm
  * @link https://github.com/brunitto/cakephp-new-relic
