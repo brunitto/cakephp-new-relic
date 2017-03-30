@@ -47,8 +47,16 @@ class NameTransactionFilter extends DispatcherFilter
      */
     public function nameTransaction(Request $request)
     {
+        // CakePHP does not include the "prefix" key in request "params" array
+        // when prefixes are not being used as it does for the "plugin" key, so
+        // this code need custom handling
+        if (array_key_exists('prefix', $request->params)) {
+            $prefix = $request->params['prefix'];
+        } else {
+            $prefix = null;
+        }
+
         $plugin = $request->params['plugin'];
-        $prefix = $request->params['prefix'];
         $controller = $request->params['controller'];
         $action = $request->params['action'];
 
