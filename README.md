@@ -46,6 +46,19 @@ Add the Dispatcher Filter to the `bootstrap.php` file:
 
 ### Enable browser timing
 
+Load the plugin helper within `src/View/AppView.php`, add the following line
+within the `initialize()` method:
+
+    $this->loadHelper('NewRelic.NewRelic');
+
+Like this:
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadHelper('NewRelic.NewRelic');
+    }
+
 In your [Layouts](http://book.cakephp.org/3.0/en/views.html#layouts) files, use
 the `NewRelic` helper methods to get the browser timing header and footer.
 
