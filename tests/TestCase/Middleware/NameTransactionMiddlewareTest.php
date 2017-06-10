@@ -69,9 +69,12 @@ class NameTransactionMiddlewareTest extends TestCase
      */
     public function testNameTransaction()
     {
+        // CakePHP does not include the "prefix" key in request "params" array
+        // when prefixes are not being used as it does for the "plugin" key, so
+        // this test should not include it
+
         // Assert the transaction name using controller/action
         $this->Request->params['plugin'] = null;
-        $this->Request->params['prefix'] = null;
         $this->Request->params['controller'] = 'TestController';
         $this->Request->params['action'] = 'test';
         $this->assertEquals(
