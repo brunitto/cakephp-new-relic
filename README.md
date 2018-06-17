@@ -124,8 +124,9 @@ working code. This will trigger Travis CI and run tests as soon as possible. If
 you fix an issue, use the `, fix #N` suffix in commit messages, where #N is the
 issue identifier. This will close issues on GitHub
 4. When the `development` is ready to go, merge in `master` and creates two
-soft tags: the version tag `1.2.3` and the `stable` tag. The version tag is
-used by GitHub and Packagist to define a new release and a stable release
+soft tags: the version tag `1.2.3` and the `stable` tag. It might be necessary
+to remove the `stable` tag before pushing. The version tag is used by GitHub and
+Packagist to define a new release and a stable release
 5. Push `master` to `origin` including the tags and wait for Travis CI to
 run and the tests to pass
 
