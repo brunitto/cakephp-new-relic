@@ -42,15 +42,15 @@ class NameTransactionFilter extends DispatcherFilter
      *
      * Name the transaction using request data.
      *
-     * @param Cake\Http\ServerRequest $serverRequest The request.
+     * @param Cake\Http\ServerRequest $request The request.
      * @return string
      */
-    public function nameTransaction(ServerRequest $serverRequest)
+    public function nameTransaction(ServerRequest $request)
     {
-        $prefix = $serverRequest->getParam('prefix', null);
-        $plugin = $serverRequest->getParam('plugin', null);
-        $controller = $serverRequest->getParam('controller');
-        $action = $serverRequest->getParam('action');
+        $prefix = $request->getParam('prefix', null);
+        $plugin = $request->getParam('plugin', null);
+        $controller = $request->getParam('controller');
+        $action = $request->getParam('action');
 
         $transaction = Inflector::dasherize($controller) . '/' . $action;
 

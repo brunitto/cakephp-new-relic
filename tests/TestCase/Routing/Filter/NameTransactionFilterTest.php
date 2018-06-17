@@ -32,7 +32,7 @@ class NameTransactionsFilterTest extends TestCase
      *
      * @var Cake\Http\ServerRequest
      */
-    public $ServerRequest;
+    public $Request;
 
     /**
      * setUp method.
@@ -43,7 +43,7 @@ class NameTransactionsFilterTest extends TestCase
     {
         parent::setUp();
         $this->NameTransactionFilter = new NameTransactionFilter();
-        $this->ServerRequest = new ServerRequest();
+        $this->Request = new ServerRequest();
     }
 
     /**
@@ -53,7 +53,7 @@ class NameTransactionsFilterTest extends TestCase
      */
     public function tearDown()
     {
-        $this->ServerRequest = null;
+        $this->Request = null;
         $this->NameTransactionFilter = null;
         parent::tearDown();
     }
@@ -71,7 +71,7 @@ class NameTransactionsFilterTest extends TestCase
         // Assert the transaction name using controller/action
         $this->assertEquals(
             $this->NameTransactionFilter->nameTransaction(
-                $this->ServerRequest
+                $this->Request
                     ->withParam('plugin', null)
                     ->withParam('controller', 'TestController')
                     ->withParam('action', 'test')),
@@ -81,7 +81,7 @@ class NameTransactionsFilterTest extends TestCase
         // Assert the transaction name using plugin/controller/action
         $this->assertEquals(
             $this->NameTransactionFilter->nameTransaction(
-                $this->ServerRequest
+                $this->Request
                     ->withParam('plugin', 'TestPlugin')
                     ->withParam('controller', 'TestController')
                     ->withParam('action', 'test')),
@@ -91,7 +91,7 @@ class NameTransactionsFilterTest extends TestCase
         // Assert the transaction name using prefix/controller/action
         $this->assertEquals(
             $this->NameTransactionFilter->nameTransaction(
-                $this->ServerRequest
+                $this->Request
                     ->withParam('prefix', 'TestPrefix')
                     ->withParam('controller', 'TestController')
                     ->withParam('action', 'test')),
@@ -101,7 +101,7 @@ class NameTransactionsFilterTest extends TestCase
         // Assert the transaction name using plugin/prefix/controller/action
         $this->assertEquals(
             $this->NameTransactionFilter->nameTransaction(
-                $this->ServerRequest
+                $this->Request
                     ->withParam('plugin', 'TestPlugin')
                     ->withParam('prefix', 'TestPrefix')
                     ->withParam('controller', 'TestController')
