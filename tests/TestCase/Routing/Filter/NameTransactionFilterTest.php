@@ -10,7 +10,7 @@ namespace NewRelic\Test\Routing\Filter;
 
 use NewRelic\Routing\Filter\NameTransactionFilter;
 use Cake\Routing\DispatcherFilter;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -30,7 +30,7 @@ class NameTransactionsFilterTest extends TestCase
     /**
      * A test request.
      *
-     * @var Cake\Network\Request
+     * @var Cake\Http\ServerRequest
      */
     public $Request;
 
@@ -43,7 +43,7 @@ class NameTransactionsFilterTest extends TestCase
     {
         parent::setUp();
         $this->NameTransactionFilter = new NameTransactionFilter();
-        $this->Request = new Request();
+        $this->Request = new ServerRequest();
     }
 
     /**
@@ -68,46 +68,45 @@ class NameTransactionsFilterTest extends TestCase
      */
     public function testNameTransaction()
     {
-        // CakePHP does not include the "prefix" key in request "params" array
-        // when prefixes are not being used as it does for the "plugin" key, so
-        // this test should not include it
-
         // Assert the transaction name using controller/action
-        $this->Request->params['plugin'] = null;
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionFilter->nameTransaction($this->Request),
+            $this->NameTransactionFilter->nameTransaction(
+                $this->Request
+                    ->withParam('plugin', null)
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
             'test-controller/test'
         );
 
         // Assert the transaction name using plugin/controller/action
-        $this->Request->params['plugin'] = 'TestPlugin';
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionFilter->nameTransaction($this->Request),
-            'test-plugin/test-controller/test'
+            $this->NameTransactionFilter->nameTransaction(
+                $this->Request
+                    ->withParam('plugin', 'TestPlugin')
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
+                'test-plugin/test-controller/test'
         );
 
         // Assert the transaction name using prefix/controller/action
-        $this->Request->params['plugin'] = null;
-        $this->Request->params['prefix'] = 'TestPrefix';
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionFilter->nameTransaction($this->Request),
-            'test-prefix/test-controller/test'
+            $this->NameTransactionFilter->nameTransaction(
+                $this->Request
+                    ->withParam('prefix', 'TestPrefix')
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
+                'test-prefix/test-controller/test'
         );
 
         // Assert the transaction name using plugin/prefix/controller/action
-        $this->Request->params['plugin'] = 'TestPlugin';
-        $this->Request->params['prefix'] = 'TestPrefix';
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionFilter->nameTransaction($this->Request),
-            'test-plugin/test-prefix/test-controller/test'
+            $this->NameTransactionFilter->nameTransaction(
+                $this->Request
+                    ->withParam('plugin', 'TestPlugin')
+                    ->withParam('prefix', 'TestPrefix')
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
+                'test-plugin/test-prefix/test-controller/test'
         );
     }
 }

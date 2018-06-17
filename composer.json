@@ -3,11 +3,11 @@
     "description": "CakePHP New Relic plugin.",
     "license": "MIT",
     "require": {
-        "cakephp/cakephp": ">=3.3 <4.0"
+        "cakephp/cakephp": ">=3.6 <4.0"
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "dev-master",
-        "phpunit/phpunit": ">=5.2 <6.0"
+        "phpunit/phpunit": ">=7.1 <8.0"
     },
     "authors": [
         {

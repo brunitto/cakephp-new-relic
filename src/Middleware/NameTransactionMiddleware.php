@@ -10,8 +10,8 @@
 namespace NewRelic\Middleware;
 
 use Cake\Utility\Inflector;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Cake\Http\ServerRequest;
+use Cake\Http\Client\Response;
 
 /**
  * New Relic name transaction middleware.
@@ -24,12 +24,12 @@ class NameTransactionMiddleware
      * Call the newrelic_name_transaction function when the newrelic extension
      * is loaded.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The request.
-     * @param \Psr\Http\Message\ResponseInterface $response The response.
+     * @param Cake\Http\ServerRequest $request The request.
+     * @param Cake\Http\Client\Response $response The response.
      * @param callable $next The next middleware to call.
-     * @return \Psr\Http\Message\ResponseInterface A response.
+     * @return Cake\Http\Client\Response A response.
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
+    public function __invoke(ServerRequest $request, Response $response, $next)
     {
         if (extension_loaded('newrelic')) {
             newrelic_name_transaction($this->nameTransaction($request));
@@ -43,23 +43,15 @@ class NameTransactionMiddleware
      *
      * Name the transaction using request data.
      *
-     * @param Cake\Network\Network $request The request.
+     * @param Cake\Http\ServerRequest $request The request.
      * @return string
      */
-    public function nameTransaction(ServerRequestInterface $request)
+    public function nameTransaction(ServerRequest $request)
     {
-        // CakePHP does not include the "prefix" key in request "params" array
-        // when prefixes are not being used as it does for the "plugin" key, so
-        // this code need custom handling
-        if (array_key_exists('prefix', $request->params)) {
-            $prefix = $request->params['prefix'];
-        } else {
-            $prefix = null;
-        }
-
-        $plugin = $request->params['plugin'];
-        $controller = $request->params['controller'];
-        $action = $request->params['action'];
+        $prefix = $request->getParam('prefix', null);
+        $plugin = $request->getParam('plugin', null);
+        $controller = $request->getParam('controller');
+        $action = $request->getParam('action');
 
         $transaction = Inflector::dasherize($controller) . '/' . $action;
 

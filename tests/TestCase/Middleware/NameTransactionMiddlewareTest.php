@@ -11,8 +11,7 @@ namespace NewRelic\Test\Middleware;
 
 use Cake\TestSuite\TestCase;
 use NewRelic\Middleware\NameTransactionMiddleware;
-use Zend\Diactoros\Request;
-use Zend\Diactoros\ServerRequestFactory;
+use Cake\Http\ServerRequest;
 
 /**
  * Test name transaction middleware.
@@ -31,7 +30,7 @@ class NameTransactionMiddlewareTest extends TestCase
     /**
      * A test request.
      *
-     * @var Zend\Diactoros\Request
+     * @var Cake\Http\ServerRequest
      */
     public $Request;
 
@@ -44,7 +43,7 @@ class NameTransactionMiddlewareTest extends TestCase
     {
         parent::setUp();
         $this->NameTransactionMiddleware = new NameTransactionMiddleware();
-        $this->Request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/testpath']);
+        $this->Request = new ServerRequest();
     }
 
     /**
@@ -69,47 +68,45 @@ class NameTransactionMiddlewareTest extends TestCase
      */
     public function testNameTransaction()
     {
-        // CakePHP does not include the "prefix" key in request "params" array
-        // when prefixes are not being used as it does for the "plugin" key, so
-        // this test should not include it
-
         // Assert the transaction name using controller/action
-        $this->Request->params['plugin'] = null;
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionMiddleware->nameTransaction($this->Request),
+            $this->NameTransactionMiddleware->nameTransaction(
+                $this->Request
+                    ->withParam('plugin', null)
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
             'test-controller/test'
         );
 
         // Assert the transaction name using plugin/controller/action
-        $this->Request->params['plugin'] = 'TestPlugin';
-        $this->Request->params['prefix'] = null;
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionMiddleware->nameTransaction($this->Request),
-            'test-plugin/test-controller/test'
+            $this->NameTransactionMiddleware->nameTransaction(
+                $this->Request
+                    ->withParam('plugin', 'TestPlugin')
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
+                'test-plugin/test-controller/test'
         );
 
         // Assert the transaction name using prefix/controller/action
-        $this->Request->params['plugin'] = null;
-        $this->Request->params['prefix'] = 'TestPrefix';
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionMiddleware->nameTransaction($this->Request),
-            'test-prefix/test-controller/test'
+            $this->NameTransactionMiddleware->nameTransaction(
+                $this->Request
+                    ->withParam('prefix', 'TestPrefix')
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
+                'test-prefix/test-controller/test'
         );
 
         // Assert the transaction name using plugin/prefix/controller/action
-        $this->Request->params['plugin'] = 'TestPlugin';
-        $this->Request->params['prefix'] = 'TestPrefix';
-        $this->Request->params['controller'] = 'TestController';
-        $this->Request->params['action'] = 'test';
         $this->assertEquals(
-            $this->NameTransactionMiddleware->nameTransaction($this->Request),
-            'test-plugin/test-prefix/test-controller/test'
+            $this->NameTransactionMiddleware->nameTransaction(
+                $this->Request
+                    ->withParam('plugin', 'TestPlugin')
+                    ->withParam('prefix', 'TestPrefix')
+                    ->withParam('controller', 'TestController')
+                    ->withParam('action', 'test')),
+                'test-plugin/test-prefix/test-controller/test'
         );
     }
 }
