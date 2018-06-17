@@ -52,7 +52,8 @@ Add the Dispatcher Filter to the `bootstrap.php` file:
 
 #### Using Middleware
 
-Add the Middleware to the `src/Application.php` file after the `RoutingMiddleware`:
+Add the Middleware to the `src/Application.php` file **after** the
+`RoutingMiddleware`:
 
     $middlewareQueue
         ->add(new RoutingMiddleware($this))
