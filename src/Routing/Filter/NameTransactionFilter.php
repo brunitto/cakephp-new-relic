@@ -10,7 +10,7 @@ namespace NewRelic\Routing\Filter;
 
 use Cake\Event\Event;
 use Cake\Routing\DispatcherFilter;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\Utility\Inflector;
 
 /**
@@ -42,23 +42,15 @@ class NameTransactionFilter extends DispatcherFilter
      *
      * Name the transaction using request data.
      *
-     * @param Cake\Network\Network $request The request.
+     * @param Cake\Http\ServerRequest $serverRequest The request.
      * @return string
      */
-    public function nameTransaction(Request $request)
+    public function nameTransaction(ServerRequest $serverRequest)
     {
-        // CakePHP does not include the "prefix" key in request "params" array
-        // when prefixes are not being used as it does for the "plugin" key, so
-        // this code need custom handling
-        if (array_key_exists('prefix', $request->params)) {
-            $prefix = $request->params['prefix'];
-        } else {
-            $prefix = null;
-        }
-
-        $plugin = $request->params['plugin'];
-        $controller = $request->params['controller'];
-        $action = $request->params['action'];
+        $prefix = $serverRequest->getParam('prefix', null);
+        $plugin = $serverRequest->getParam('plugin', null);
+        $controller = $serverRequest->getParam('controller');
+        $action = $serverRequest->getParam('action');
 
         $transaction = Inflector::dasherize($controller) . '/' . $action;
 

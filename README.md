@@ -23,13 +23,13 @@ For more information, visit:
 
 This plugin has the following requirements:
 
-* CakePHP 3.3 or greater
-* PHP 5.5.9 or greater
+* CakePHP 3.6 or greater
+* PHP 7.1 or greater
 * New Relic PHP extension
 
 Development requirements:
 
-* PHPUnit 5.2 or greater
+* PHPUnit 7.1 or greater
 
 ## Installation
 
@@ -100,7 +100,7 @@ Install using `composer` program:
 
 Run using `phpunit` program:
 
-    $ vendor/bin/phpunit
+    $ vendor/bin/phpunit tests --color
 
 ### Releasing a new version
 
