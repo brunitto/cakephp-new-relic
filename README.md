@@ -43,10 +43,20 @@ file is located.)
 
 ### Enable name transaction
 
+#### Using Dispatcher
+
 Add the Dispatcher Filter to the `bootstrap.php` file:
 
     // New Relic name transaction dispatcher filter
     DispatcherFactory::add('NewRelic.NameTransaction');
+
+#### Using Middleware
+
+Add the Middleware to the `src/Application.php` file after the `RoutingMiddleware`:
+
+    $middlewareQueue
+        ->add(new RoutingMiddleware($this))
+        ->add(new NameTransactionMiddleware());
 
 ### Enable browser timing
 
