@@ -11,7 +11,7 @@ namespace NewRelic\Middleware;
 
 use Cake\Utility\Inflector;
 use Cake\Http\ServerRequest;
-use Cake\Http\Client\Response;
+use Cake\Http\Response;
 
 /**
  * New Relic name transaction middleware.

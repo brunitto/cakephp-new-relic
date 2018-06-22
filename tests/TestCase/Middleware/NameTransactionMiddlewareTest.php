@@ -12,6 +12,9 @@ namespace NewRelic\Test\Middleware;
 use Cake\TestSuite\TestCase;
 use NewRelic\Middleware\NameTransactionMiddleware;
 use Cake\Http\ServerRequest;
+use Cake\Http\Response;
+use Cake\Http\MiddlewareQueue;
+use Cake\Http\Runner;
 
 /**
  * Test name transaction middleware.
@@ -56,6 +59,36 @@ class NameTransactionMiddlewareTest extends TestCase
         $this->Request = null;
         $this->NameTransactionMiddleware = null;
         parent::tearDown();
+    }
+
+    /**
+     * Test __invoke method.
+     *
+     * Assert that the invoke call the next middleware properly.
+     *
+     * @return void
+     */
+    public function testInvoke()
+    {
+        $response = new Response();
+        $request = new ServerRequest();
+
+        $middleware = new MiddlewareQueue();
+        $middleware->add(new NameTransactionMiddleware());
+
+        $runner = new Runner();
+
+        $mock = $this->getMockBuilder(stdClass::class)
+                     ->setMethods(['__invoke'])
+                     ->getMock();
+        $mock->expects($this->once())
+             ->method('__invoke')
+             ->with($request, $response, $runner)
+             ->willReturn($response);
+        $middleware->add($mock);
+
+        $result = $runner->run($middleware, $request, $response);
+        $this->assertSame($response, $result);
     }
 
     /**
